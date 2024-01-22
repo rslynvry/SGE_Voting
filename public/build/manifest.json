@@ -1,0 +1,41 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/images/abstain.svg": {
+    "file": "assets/abstain-477840a2.svg",
+    "src": "resources/images/abstain.svg"
+  },
+  "resources/images/login-image.svg": {
+    "file": "assets/login-image-7cdcebc9.svg",
+    "src": "resources/images/login-image.svg"
+  },
+  "resources/images/puplogo.png": {
+    "file": "assets/puplogo-08bb2e3e.png",
+    "src": "resources/images/puplogo.png"
+  },
+  "resources/images/pvs.png": {
+    "file": "assets/pvs-b4216c72.png",
+    "src": "resources/images/pvs.png"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-2967b5e8.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/puplogo-08bb2e3e.png",
+      "assets/pvs-b4216c72.png",
+      "assets/login-image-7cdcebc9.svg",
+      "assets/abstain-477840a2.svg"
+    ],
+    "css": [
+      "assets/app-2967b5e8.css"
+    ],
+    "file": "assets/app-1046fb73.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
