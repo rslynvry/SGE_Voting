@@ -1,32 +1,47 @@
 <template>
-    <div class="main">
-        <div class="col-md-4 login-section">
-            <div class="login-label">
-                <h1 class="login-label-back">voter login</h1>
-                <h1 class="login-label-front">VOTER LOGIN</h1>
+    <div class="bg-img">
+        <div class="login container frost">
+            
+            <!--Change to Election Management when in EMS-->
+            <div class="header" style="display: flex; flex-direction: column;">
+                <div class="logo">
+                    <img src="../../images/puplogo.png" width="88px" height="88px" alt="logo">
+                </div>
+                <div class="div" style="display: flex; align-items: center;">
+                    <h1 class="my-3">Voting System</h1>
+                    <span class="beta">βeta</span>
+                </div>
             </div>
+
+            <p class="cast">Sign in to cast your vote</p>
 
             <div class="alert alert-danger" style="text-align: center; margin-top: 3%;" role="alert" v-if="invalid">
                 {{ invalid }}
             </div>
 
-            <div class="credentials">
-                <div class="form-group">
-                    <label class="form-label" for="student-number">Student Number</label>
-                    <input class="form-control" type="text" name="student-number" placeholder="Enter your student number" maxlength="15" @keyup.enter="submitForm" v-model="form.StudentNumber">
-                </div>
-                <div class="form-group my-4">
-                    <label class="form-label" for="password">Password</label>
-                    <input class="form-control" type="password" name="password" placeholder="Enter your password" @keyup.enter="submitForm" v-model="form.Password">
-                </div>
+            <div class="input mb-4 mx-4">
+                    <div class="form-group">
+                        <label class="form-label" for="student-number">Student Number</label>
+                        <input class="form-control" type="text" id="student-number" placeholder="Enter your student number" name="student-number" maxlength="15" @keyup.enter="submitForm" v-model="form.StudentNumber">
+                        <div class="invalid-feedback">
+                            Please enter your student number.
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-control" type="text" id="password" name="password" placeholder="Enter your password" @keyup.enter="submitForm" v-model="form.Password">
+                        <div class="invalid-feedback">
+                            Please enter your password.
+                        </div>
+                    </div>
 
-                <div class="login">
-                    <button class="login-button" @click.prevent="submitForm" :disabled="loggingIn">{{ login_text }}</button>
-                </div>
+                    <div class="submit">
+                        <button class="signin" @click="submitForm">{{ login_text }}</button>
+                    </div>
             </div>
-        </div>
-        <div class="col-md design">
-            <img src="../../images/login-image.svg" alt="" class="login-image" draggable="false">
+            
+            <p class="terms mx-4">By using this service, you understood and agree to the PUP Online Services <a href="https://www.pup.edu.ph/terms/" class="redirect">Terms of Use</a> and <a href="https://www.pup.edu.ph/privacy/" class="redirect">Privacy Statement</a></p>
         </div>
     </div>
 
@@ -48,7 +63,7 @@
                         },
                 loggingIn: false,
                 invalid: '',
-                login_text: 'Login',
+                login_text: 'Sign in',
                 countdown: 0,
                 intervalId: null,
             }
@@ -88,7 +103,7 @@
                 }
 
                 this.loggingIn = true;
-                this.login_text = 'Logging in...';
+                this.login_text = 'Signing in...';
 
                     axios.post(`${import.meta.env.VITE_FASTAPI_BASE_URL}/api/v1/student/voting/login`, {
                         StudentNumber: this.form.StudentNumber,
@@ -166,76 +181,108 @@
 </script>
 
 <style scoped>
-    .main{
-        font-family: 'Inter', sans-serif;
+.bg-img{
+    width: 100%;
+    background-image: url('../../images/pupqc.jpg'); 
+    background-size: cover; 
+    background-repeat: no-repeat;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+    .login{
+        background-color: #F2F2F2;
+        width: 33%;
+        min-height: 100vh;
+        padding-top: 5.5%;
+        float: right;
     }
 
-    .login-section{
-        background-color: #FFFDFA;
-        float: left;
-        padding: 10% 0%;
-        height: 100vh;
-    }
-
-    .login-label{
+    .logo{
         text-align: center;
     }
 
-    .login-label-back {
-        margin: 0%;
-        font-weight: 900;
-        font-size: 4.5vw; /* Adjust this value as needed */
-        color: #F7F7F7;
-        position: relative;
+    .header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .login-label-front {
-        margin: 0%;
-        font-weight: 900;
-        font-size: 2.1vw; /* Adjust this value as needed */
-        position: absolute;
-        top: 13vw; /* Adjust this value to position the front label correctly */
-        left: 9.7vw;
-        z-index: 1;
+    .login h1{   
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
     }
 
-    .credentials{
-        margin: 5% 0%;
+    .cast{
+        text-align: center;
+    }
+
+    .beta{
+        margin-left: 10px;
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    .input{
+        margin-top: 2%;
     }
 
     .form-group{
-        padding: 0% 15%;
+        margin-bottom: 10px;
     }
 
     .form-control:focus {
-        border-color: #FFD966; /* Change this to your desired color */
-        box-shadow: 0 0 0 0.2rem rgba(246, 177, 1, 0.25); /* Change this to match your desired color */
+        border-color: #800000; /* Change this to your desired color */
+        box-shadow: 0 0 0 0.2rem rgba(114, 18, 18, 0.25); /* Change this to match your desired color */
     }
 
-    .login{
+    .submit{
         text-align: center;
-        margin: 5% 0%;
+        margin-top: 5%;
     }
 
-    .login-button{
-        width: 70%;
+    .submit button{
+        width: 100%;
+        height: 40px;
+        border-radius: 3px;
         border: transparent;
-        background-color: #FFD966;
+        background-color: rgba(117, 0, 0, 0.926);
         color: white;
-        font-weight: 900;
-        font-size: 20px;
-        height: 45px;
-        border-radius: 6px;   
     }
 
-    .design{
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .submit button:hover{
+        background-color: rgba(117, 0, 0, 0.979);
     }
 
-    .login-image{
-        width: 600px;
+    .terms{
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .redirect{
+        text-decoration: none;
+        color: #750000;
+    }
+
+    .redirect:hover{
+        color: #800000;
+    }
+
+    .frost{
+        min-height: 100vh;
+        min-width: 360px !important;
+        padding: 10vh 0 0 0;
+        overflow: hidden;
+        box-shadow: none !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        background: rgba(255,255,255,0.7);
+        -webkit-backdrop-filter: blur(20px) saturate(168%);
+        backdrop-filter: blur(20px) saturate(168%);
+        right: 0;
+        position: absolute;
     }
 </style>

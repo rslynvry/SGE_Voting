@@ -25,7 +25,7 @@
             <!-- Display 'No available elections' if AtleastOneAvailableElection is false -->
             <template v-else>
                 <div class="no-available-elections" style="text-align: center; margin-top: 3%; font-family: 'Inter', sans-serif;">
-                    <h1 style="font-size: 35px;">(No available elections for you at the moment)</h1>
+                    <NoData>There are currently no available elections for you at the moment.</NoData>
                 </div>
             </template>
         </template>
@@ -35,6 +35,7 @@
 
 <script>
     import Navbar from '../Shared/Navbar.vue';
+    import NoData from '../Shared/NoData.vue';
     import { useUserStore } from '../Stores/UserStore.js';
 
     import { ref } from 'vue'
@@ -96,7 +97,7 @@
                 isElectionsError,
             };
         },
-        components: { Navbar },
+        components: { Navbar, NoData },
         props: {
             student_number: '',
         },
