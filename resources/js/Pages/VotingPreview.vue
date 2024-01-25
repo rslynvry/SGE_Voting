@@ -84,7 +84,8 @@
                     voter_student_number: this.student_number,
                     votes: Object.values(this.votes).flat().map(candidate => {
                         return { 
-                            candidate_student_number: candidate === 'abstain' ? 'abstain' : candidate.StudentNumber 
+                            candidate_student_number: candidate === 'abstain' ? 'abstain' : candidate.StudentNumber,
+                            position: candidate === 'abstain' ? position : null  // Include the position when a voter abstains
                         };
                     }),
                 };
@@ -103,6 +104,9 @@
                         this.confirm_clicked = false;
                         
                         alert(error.response.data.error)
+                    })
+                    .finally(() => {
+                        this.confirm_clicked = false;
                     });
             },
             logout(){

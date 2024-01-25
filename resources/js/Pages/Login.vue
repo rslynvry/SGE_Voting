@@ -30,7 +30,7 @@
                     
                     <div class="form-group">
                         <label class="form-label" for="password">Password</label>
-                        <input class="form-control" type="text" id="password" name="password" placeholder="Enter your password" @keyup.enter="submitForm" v-model="form.Password">
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password" @keyup.enter="submitForm" v-model="form.Password">
                         <div class="invalid-feedback">
                             Please enter your password.
                         </div>

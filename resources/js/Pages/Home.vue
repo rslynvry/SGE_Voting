@@ -8,7 +8,7 @@
         </div>
         
         <template v-if="!isElectionsLoading">
-            <template v-if="electionsData.elections.AtleastOneAvailableElection">
+            <!-- <template v-if="electionsData.elections.AtleastOneAvailableElection === true"> -->
                 <template v-for="(election, index) in electionsData.elections.data" :key="index">
                     <div v-if="isVotingPeriod(election) && election.IsStudentEligible" 
                         class="select-election" @click="electionSelected(election)">
@@ -20,14 +20,15 @@
                         </div>
                     </div>
                 </template>
-            </template>
+            <!-- </template> -->
 
             <!-- Display 'No available elections' if AtleastOneAvailableElection is false -->
-            <template v-else>
+            
+            <!-- <template v-else>
                 <div class="no-available-elections" style="text-align: center; margin-top: 3%; font-family: 'Inter', sans-serif;">
                     <NoData>There are currently no available elections for you at the moment.</NoData>
                 </div>
-            </template>
+            </template> -->
         </template>
 
     </div>
@@ -51,6 +52,7 @@
             const activeElectionQuantity = ref(0);
 
             userStore.student_number = props.student_number;
+            userStore.full_name = props.full_name;
             
             const fetchElectionsTable = async () => {
                 const response = await axios.get(`${import.meta.env.VITE_FASTAPI_BASE_URL}/api/v1/election/all/is-student-voted`, {
@@ -59,6 +61,7 @@
                     }
                 });
                 console.log(`Get all elections successful. Duration: ${response.duration}ms`)
+                console.log(response.data.elections)
 
                 return response.data;
             }

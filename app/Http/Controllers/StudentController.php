@@ -13,13 +13,31 @@ class StudentController extends Controller
 {
     public function home(Request $request)
     {
-        $student_number = $request->session()->get('student_number');
+        $get_user_info = json_decode($request->cookie('voting_user_info'), true);
+
+        //$student_id = $get_user_info['student_id'];
+        $student_number = $get_user_info['student_number'];
+        $student = Student::where('StudentNumber', $student_number)->first();
+
+        //$student_number = $student->StudentNumber;
+
+        $first_name = $student->FirstName;
+        $last_name = $student->LastName;
+        $middle_name = $student->MiddleName;
+
+        // get full name and check if middle name is null
+        if ($middle_name == null) {
+            $full_name = $first_name . ' ' . $last_name;
+        } else {
+            $full_name = $first_name . ' ' . $middle_name . ' ' . $last_name;
+        }
 
         return Inertia::render('Home', [
             'student_number' => $student_number,
+            'full_name' => $full_name,
         ]);
     }
-
+    
     public function votingProcess(Request $request)
     {
         $id = $request->id;
