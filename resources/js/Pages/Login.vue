@@ -131,7 +131,7 @@
                                 if (error.response.data.message === 'CSRF token mismatch.') {
                                     this.invalid = 'Please refresh your page and try again.';
                                     this.loggingIn = false;
-                                    this.login_text = 'Login';
+                                    this.login_text = 'Sign in';
                                     return;
                                 }
                             });
@@ -139,7 +139,7 @@
                         else {
                             this.invalid = 'Invalid credentials.';
                             this.loggingIn = false;
-                            this.login_text = 'Login';
+                            this.login_text = 'Sign in';
                         }
                     })
                     .catch(error => {
@@ -160,7 +160,7 @@
                         }
 
                         this.loggingIn = false;
-                        this.login_text = 'Login';
+                        this.login_text = 'Sign in';
                     });
             },
             startCountdown(seconds) {
