@@ -56,12 +56,14 @@
         setup(props) {
             const activeElectionIndex = ref(Number(props.id));
             const votes = ref(props.votes);
+            const abstainList = ref(props.abstainList);
             const student_number = ref(props.student_number);
             const confirm_clicked = ref(false);
             
             return {
                 activeElectionIndex,
                 votes,
+                abstainList,
                 student_number,
                 confirm_clicked
             };
@@ -70,6 +72,7 @@
         props: {
             id: '',
             votes: {},
+            abstainList: null,
             student_number: '',
         },
         methods: {
@@ -85,15 +88,17 @@
                     votes: Object.values(this.votes).flat().map(candidate => {
                         return { 
                             candidate_student_number: candidate === 'abstain' ? 'abstain' : candidate.StudentNumber,
-                            position: candidate === 'abstain' ? position : null  // Include the position when a voter abstains
+                            // position: candidate === 'abstain' ? position : null  // Include the position when a voter abstains
                         };
                     }),
+                    abstainList: this.abstainList,
                 };
 
                 axios.post(`${import.meta.env.VITE_FASTAPI_BASE_URL}/api/v1/votings/submit`, votesList)
                     .then(response => {
                         console.log(response.data);
                         localStorage.removeItem(`votes-${this.activeElectionIndex}`);
+                        localStorage.removeItem(`abstainList-${this.activeElectionIndex}`);
 
                         alert('Your votes has been submitted, you will be logged out now.');
 

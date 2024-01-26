@@ -70,11 +70,13 @@ class StudentController extends Controller
     {   
         $id = $request->id;
         $votes = $request->votes;
+        $abstainList = $request->abstainList;
 
         if (!$id || !$votes) {
             // If there's no id or votes in the request, try to get them from the session
             $id = $request->session()->get('id', $id);
             $votes = $request->session()->get('votes', $votes);
+            $abstainList = $request->session()->get('abstainList', $abstainList);
         }
 
         if (!$id || !$votes) {
@@ -84,6 +86,7 @@ class StudentController extends Controller
         // Store the id and votes in the session
         $request->session()->put('id', $id);
         $request->session()->put('votes', $votes);
+        $request->session()->put('abstainList', $abstainList);
 
         // Check if student course is same as election course
         $electionTable = Election::where('ElectionId', $id)->first();
@@ -107,6 +110,7 @@ class StudentController extends Controller
         return Inertia::render('VotingPreview', [
             'id' => $id,
             'votes' => $votes,
+            'abstainList' => $abstainList,
             'student_number' => $student_number,
         ]);
     }

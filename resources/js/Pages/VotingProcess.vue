@@ -68,6 +68,7 @@
             const activeElectionIndex = ref(Number(props.id));
             const atLeastOneCandidate = ref(useLocalStorage(`atLeastOneCandidate-${activeElectionIndex.value}`, false));
             const votes = ref(useLocalStorage(`votes-${activeElectionIndex.value}`, {}));
+            const abstainList = ref(useLocalStorage(`abstainList-${activeElectionIndex.value}`, []));
 
             // For checking if voting period is still ongoing?
             const fetchActiveElection = async () => {
@@ -146,6 +147,7 @@
                 atLeastOneCandidate,
                 electionsData,
                 votes,
+                abstainList,
                 isElectionsLoading,
                 isElectionsSuccess,
                 isElectionsError,
@@ -194,6 +196,8 @@
                     // Check if the user has abstained for this position
                     if (this.isAbstain(positionName)) {
                         this.votes[positionName] = [];
+                        const positionIndex = this.abstainList.indexOf(positionName);
+                        this.abstainList.splice(positionIndex, 1);
                     }
 
                     // Check if the maximum number of votes for this position has been reached
@@ -214,10 +218,17 @@
                 if (this.isAbstain(positionName)) {
                     // If the user has already abstained, remove the abstention
                     this.votes[positionName] = [];
+                    
+                    // remove the position from the abstain list
+                    const positionIndex = this.abstainList.indexOf(positionName);
+                    this.abstainList.splice(positionIndex, 1);
+
                     console.log('You removed your abstention for', positionName);
                 } else {
                     // If the user hasn't abstained, add the abstention
                     this.votes[positionName] = ['abstain'];
+                    this.abstainList.push(positionName);
+
                     console.log('You abstained from voting for', positionName);
                 }
             },
@@ -257,6 +268,7 @@
                     router.post('/voting/preview', {
                         id: String(this.activeElectionIndex),
                         votes: this.votes,
+                        abstainList: this.abstainList,
                     });
                 }
             }
