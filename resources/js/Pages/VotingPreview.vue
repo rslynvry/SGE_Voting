@@ -38,7 +38,7 @@
 
         <div class="preview-buttons">
             <button class="back-button" @click.prevent="returnPage">RETURN</button>
-            <button class="submit-button" @click.prevent="confirm">CONFIRM</button>
+            <button class="submit-button" @click.prevent="confirm">{{ submitState }}</button>
         </div>
     </div>
 </template>
@@ -75,6 +75,16 @@
             abstainList: null,
             student_number: '',
         },
+        computed:{
+            submitState(){
+                if (this.confirm_clicked) {
+                    return 'CONFIRMING..';
+                } 
+                else {
+                    return 'CONFIRM';
+                }
+            }
+        },
         methods: {
             returnPage(){
                 router.visit(`/voting/process?id=${this.activeElectionIndex}`);
@@ -100,7 +110,7 @@
                         localStorage.removeItem(`votes-${this.activeElectionIndex}`);
                         localStorage.removeItem(`abstainList-${this.activeElectionIndex}`);
 
-                        alert('Your votes has been submitted, you will be logged out now.');
+                        alert('Your votes have been submitted, and you will be logged out now.');
 
                         this.logout();
                     })
@@ -255,6 +265,13 @@
         font-size: 23px;
         padding: 8px 32px;
         border-radius: 6px;
+    }
+
+    .submit-button:disabled,
+    .back-button:disabled{
+        background-color: #730000;
+        opacity: 0.5;
+        cursor: default;
     }
     
 </style>
