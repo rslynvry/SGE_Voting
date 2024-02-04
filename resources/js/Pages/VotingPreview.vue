@@ -90,8 +90,6 @@
                 router.visit(`/voting/process?id=${this.activeElectionIndex}`);
             },
             confirm(){
-                this.confirm_clicked = true;
-
                 const votesList = {
                     election_id: this.activeElectionIndex,
                     voter_student_number: this.student_number,
@@ -104,6 +102,11 @@
                     abstainList: this.abstainList,
                 };
 
+                if (this.confirm_clicked) {
+                    return;
+                }
+
+                this.confirm_clicked = true;
                 axios.post(`${import.meta.env.VITE_FASTAPI_BASE_URL}/api/v1/votings/submit`, votesList)
                     .then(response => {
                         console.log(response.data);
