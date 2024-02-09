@@ -102,66 +102,70 @@
                     return;
                 }
 
+                if (this.loggingIn) {
+                    return;
+                }
+
                 this.loggingIn = true;
                 this.login_text = 'Signing in...';
 
-                    axios.post(`${import.meta.env.VITE_FASTAPI_BASE_URL}/api/v1/student/voting/login`, {
-                        StudentNumber: this.form.StudentNumber,
-                        Password: this.form.Password
-                    })
-                    .then(response => {
-                        if (response.data.message === true) {
-                            this.student_id = response.data.student_id;
+                axios.post(`${import.meta.env.VITE_FASTAPI_BASE_URL}/api/v1/student/voting/login`, {
+                    StudentNumber: this.form.StudentNumber,
+                    Password: this.form.Password
+                })
+                .then(response => {
+                    if (response.data.message === true) {
+                        this.student_id = response.data.student_id;
 
-                            axios.post('/login/auth', this.form)
-                            .then(response => {
-                                if (response.data.redirect) {
-                                    router.visit('/home', {
-                                        data: {
-                                            student_number: this.form.StudentNumber,
-                                            student_id: this.student_id,
-                                        }
-                                    })
-                                    //window.location.href = response.data.redirect;
-                                }
-                            })
-                            .catch(error => {
-                                console.log(error)
-
-                                if (error.response.data.message === 'CSRF token mismatch.') {
-                                    this.invalid = 'Please refresh your page and try again.';
-                                    this.loggingIn = false;
-                                    this.login_text = 'Sign in';
-                                    return;
-                                }
-                            });
-                        }
-                        else {
-                            this.invalid = 'Invalid credentials.';
-                            this.loggingIn = false;
-                            this.login_text = 'Sign in';
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error)
-
-                        // Too many requests, via throttle middleware of Laravel
-                        if (error.response) {
-                            if (error.response.status === 429) { 
-                                const retryAfter = error.response.headers['retry-after'];
-                                this.startCountdown(retryAfter);
+                        axios.post('/login/auth', this.form)
+                        .then(response => {
+                            if (response.data.redirect) {
+                                router.visit('/home', {
+                                    data: {
+                                        student_number: this.form.StudentNumber,
+                                        student_id: this.student_id,
+                                    }
+                                })
+                                //window.location.href = response.data.redirect;
                             }
-                            else if (error.response.status === 419) {
+                        })
+                        .catch(error => {
+                            console.log(error)
+
+                            if (error.response.data.message === 'CSRF token mismatch.') {
                                 this.invalid = 'Please refresh your page and try again.';
+                                this.loggingIn = false;
+                                this.login_text = 'Sign in';
+                                return;
                             }
-                            else {
-                                // handle other errors
-                            }
-                        }
-
+                        });
+                    }
+                    else {
+                        this.invalid = 'Invalid credentials.';
                         this.loggingIn = false;
                         this.login_text = 'Sign in';
-                    });
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+
+                    // Too many requests, via throttle middleware of Laravel
+                    if (error.response) {
+                        if (error.response.status === 429) { 
+                            const retryAfter = error.response.headers['retry-after'];
+                            this.startCountdown(retryAfter);
+                        }
+                        else if (error.response.status === 419) {
+                            this.invalid = 'Please refresh your page and try again.';
+                        }
+                        else {
+                            // handle other errors
+                        }
+                    }
+
+                    this.loggingIn = false;
+                    this.login_text = 'Sign in';
+                });
             },
             startCountdown(seconds) {
                 this.countdown = seconds;

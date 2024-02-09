@@ -115,6 +115,11 @@
 
                         alert('Your votes have been submitted, and you will be logged out now.');
 
+                        // Open the PDF in a new tab
+                        if (response.data.upload_result) {
+                            window.open(response.data.upload_result);
+                        }
+
                         this.logout();
                     })
                     .catch(error => {
