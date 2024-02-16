@@ -6,6 +6,9 @@
         <div style="text-align: center;">
             <h1 class="header-label">ELECTIONS</h1>
         </div>
+
+        <Loading v-if="isElectionsLoading && isElectionsFetching">
+        </Loading>
         
         <template v-if="!isElectionsLoading">
             <!-- <template v-if="electionsData.elections.AtleastOneAvailableElection === true"> -->
@@ -37,6 +40,7 @@
 <script>
     import Navbar from '../Shared/Navbar.vue';
     import NoData from '../Shared/NoData.vue';
+    import Loading from '../Shared/Loading.vue';
     import { useUserStore } from '../Stores/UserStore.js';
 
     import { ref } from 'vue'
@@ -69,7 +73,8 @@
             const { data: electionsData,
                     isLoading: isElectionsLoading,
                     isSuccess: isElectionsSuccess,
-                    isError: isElectionsError} =
+                    isError: isElectionsError,
+                    isFetching: isElectionsFetching} =
                     useQuery({
                         queryKey: ['fetchElectionsTable'],
                         queryFn: fetchElectionsTable,
@@ -98,9 +103,11 @@
                 isElectionsLoading,
                 isElectionsSuccess,
                 isElectionsError,
+                isElectionsFetching,
+                isStudentLoading,
             };
         },
-        components: { Navbar, NoData },
+        components: { Navbar, NoData, Loading },
         props: {
             student_number: '',
         },
