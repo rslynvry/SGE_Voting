@@ -12,7 +12,7 @@
         
         <template v-if="!isElectionsLoading">
             <!-- <template v-if="electionsData.elections.AtleastOneAvailableElection === true"> -->
-                <template v-for="(election, index) in electionsData.elections.data" :key="index">
+                <template v-for="(election, index) in electionsData" :key="index">
                     <div v-if="isVotingPeriod(election) && election.IsStudentEligible" 
                         class="select-election" @click="electionSelected(election)">
                         <div :class="{ 'election': !election.IsStudentVoted, 'voted-already': election.IsStudentVoted  }">
@@ -65,9 +65,8 @@
                     }
                 });
                 console.log(`Get all elections successful. Duration: ${response.duration}ms`)
-                console.log(response.data.elections)
 
-                return response.data;
+                return response.data.elections.data.slice().reverse();
             }
 
             const { data: electionsData,
