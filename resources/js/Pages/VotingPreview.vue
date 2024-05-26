@@ -5,6 +5,21 @@
     <div class="main">
         <h1 class="preview-label">PREVIEW</h1>
 
+        <div v-for="(candidates, position) in votes" class="selected-candidates">
+            <div class="candidate">
+                <h1 class="position">{{ position }}</h1>
+
+                <div class="candidate-information-wrapper">
+                    <div v-for="vote in candidates" class="candidate-information">
+                        <img v-if="vote === 'abstain'" src="../../images/abstain.svg" class="candidate-photo" draggable="false">
+                        <img v-else :src="vote.DisplayPhoto" alt="" class="candidate-photo" draggable="false">
+                        <h1 class="candidate-name">{{ vote === 'abstain' ? 'Abstain' : vote.Student.FirstName + ' ' + vote.Student.LastName }}</h1>
+                        <h2 class="candidate-affiliation">{{ vote === 'abstain' ? '' : (vote.PartyListId ? vote.PartyListName : 'Independent') }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="note">
             <div class="note-content">
                 <p>Please note:</p>
@@ -18,21 +33,6 @@
                 </ol>
 
                 <p style="margin: 0%;">Remember, every vote counts. Make yours count too! Proceed with caution.</p>
-            </div>
-        </div>
-
-        <div v-for="(candidates, position) in votes" class="selected-candidates">
-            <div class="candidate">
-                <h1 class="position">{{ position }}</h1>
-
-                <div class="candidate-information-wrapper">
-                    <div v-for="vote in candidates" class="candidate-information">
-                        <img v-if="vote === 'abstain'" src="../../images/abstain.svg" class="candidate-photo" draggable="false">
-                        <img v-else :src="vote.DisplayPhoto" alt="" class="candidate-photo" draggable="false">
-                        <h1 class="candidate-name">{{ vote === 'abstain' ? 'Abstain' : vote.Student.FirstName + ' ' + vote.Student.LastName }}</h1>
-                        <h2 class="candidate-affiliation">{{ vote === 'abstain' ? '' : (vote.PartyListId ? vote.PartyListName : 'Independent') }}</h2>
-                    </div>
-                </div>
             </div>
         </div>
 

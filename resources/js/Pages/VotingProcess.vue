@@ -348,18 +348,10 @@
         transform: translateY(-12px);
         background-color: rgb(245, 245, 245);
         box-shadow: 0px 3.5px 5px rgba(167, 165, 165, 0.7);
-
-        .candidate-photo{
-            filter: grayscale(0%);
-        }
     }
 
     .voted{
         border: 5px solid #4eb358;
-        
-        .candidate-photo{
-            filter: grayscale(0%);
-        }
     }
 
     .candidate-photo{
@@ -368,7 +360,6 @@
         height: 170px;
         border-radius: 50%;
         object-fit: cover;
-        filter: grayscale(100%);
         transition: filter 0.3s ease;
     }
 
@@ -382,20 +373,6 @@
         margin-top: -10%;
         font-size: 17px;
     }
-
-    input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-        width: 330px;
-        height: 330px;
-    }
-
-    input[type="radio"]:checked + label {
-        .candidate-photo{
-            filter: grayscale(0%);
-        }
-    }
-
     .election-buttons{
         background-color: white;
         margin: 2% 4%;
